@@ -56,6 +56,7 @@ function GlideComponent(props) {
     // eslint-disable-next-line no-plusplus
     for (let i = 0; i < total; i++) {
       dots.push(
+        // eslint-disable-next-line jsx-a11y/control-has-associated-label
         <button
           type="button"
           className="glide__bullet slider-dot"
