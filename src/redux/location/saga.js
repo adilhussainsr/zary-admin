@@ -48,6 +48,7 @@ const addCityItemRequest = async (item) => {
 };
 
 function* addCityItem({ payload }) {
+  console.log("adding city")
   try {
     yield call(addCityItemRequest, payload);
     const response = yield call(getCityListRequest);
@@ -62,6 +63,7 @@ export function* watchGetList() {
 }
 
 export function* wathcAddItem() {
+  console.log("testing logs")
   yield takeEvery(CITY_ADD_ITEM, addCityItem);
 }
 
