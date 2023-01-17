@@ -275,11 +275,15 @@ class Sidebar extends Component {
     // eslint-disable-next-line react/destructuring-assignment
     this.props.changeSelectedMenuHasSubItems(hasSubMenu);
     if (!hasSubMenu) {
-      this.setState({
-        viewingParentMenu: selectedParent,
-        selectedParentMenu: selectedParent,
-      });
-      this.toggle();
+      this.setState(
+        {
+          viewingParentMenu: selectedParent,
+          selectedParentMenu: selectedParent,
+        },
+        () => {
+          this.toggle();
+        }
+      );
     } else {
       e.preventDefault();
 

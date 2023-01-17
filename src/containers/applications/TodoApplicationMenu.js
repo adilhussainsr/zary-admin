@@ -12,7 +12,7 @@ import classnames from 'classnames';
 
 import IntlMessages from 'helpers/IntlMessages';
 import ApplicationMenu from 'components/common/ApplicationMenu';
-import { getTodoListWithFilter } from 'redux/actions';
+// import { getTodoListWithFilter } from 'redux/actions';
 
 const TodoApplicationMenu = ({
   todoItems,
@@ -164,5 +164,5 @@ const mapStateToProps = ({ todoApp }) => {
   };
 };
 export default connect(mapStateToProps, {
-  getTodoListWithFilterAction: getTodoListWithFilter,
+  // getTodoListWithFilterAction: getTodoListWithFilter,
 })(TodoApplicationMenu);

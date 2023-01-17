@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 /* eslint-disable react/no-array-index-key */
 import React, { useState, useEffect } from 'react';
 import {
@@ -19,14 +20,14 @@ import { Colxx, Separator } from 'components/common/CustomBootstrap';
 import Breadcrumb from 'containers/navs/Breadcrumb';
 
 import {
-  getTodoList,
-  getTodoListWithOrder,
-  getTodoListSearch,
-  selectedTodoItemsChange,
+  getCityList,
+  getCityListWithOrder,
+  getCityListSearch,
+  selectedCityItemsChange,
 } from 'redux/actions';
 import TodoListItem from 'components/applications/TodoListItem';
-import AddNewTodoModal from 'containers/applications/AddNewLocationModal';
 import TodoApplicationMenu from 'containers/applications/TodoApplicationMenu';
+import AddNewCityModal from 'containers/applications/AddNewCityModal';
 
 const getIndex = (value, arr, prop) => {
   for (let i = 0; i < arr.length; i += 1) {
@@ -37,19 +38,19 @@ const getIndex = (value, arr, prop) => {
   return -1;
 };
 
-const TodoApp = ({
+const Location = ({
   match,
   intl,
-  todoItems,
+  cityItems,
   searchKeyword,
   loaded,
   orderColumn,
   orderColumns,
   selectedItems,
-  getTodoListAction,
-  getTodoListWithOrderAction,
-  getTodoListSearchAction,
-  selectedTodoItemsChangeAction,
+  getCityListAction,
+  getCityListWithOrderAction,
+  getCityListSearchAction,
+  selectedCityItemsChangeAction,
 }) => {
   const [modalOpen, setModalOpen] = useState(false);
   const [dropdownSplitOpen, setDropdownSplitOpen] = useState(false);
@@ -58,12 +59,12 @@ const TodoApp = ({
 
   useEffect(() => {
     document.body.classList.add('right-menu');
-    getTodoListAction();
+    getCityListAction();
 
     return () => {
       document.body.classList.remove('right-menu');
     };
-  }, [getTodoListAction]);
+  }, [getCityListAction]);
 
   const handleCheckChange = (event, id) => {
     if (lastChecked == null) {
@@ -76,10 +77,10 @@ const TodoApp = ({
     } else {
       selectedList.push(id);
     }
-    selectedTodoItemsChangeAction(selectedList);
+    selectedCityItemsChangeAction(selectedList);
 
     if (event.shiftKey) {
-      let items = todoItems;
+      let items = cityItems;
       const start = getIndex(id, items, 'id');
       const end = getIndex(lastChecked, items, 'id');
       items = items.slice(Math.min(start, end), Math.max(start, end) + 1);
@@ -89,16 +90,16 @@ const TodoApp = ({
         })
       );
       selectedList = Array.from(new Set(selectedList));
-      selectedTodoItemsChangeAction(selectedList);
+      selectedCityItemsChangeAction(selectedList);
     }
   };
 
   const handleChangeSelectAll = () => {
     if (loaded) {
-      if (selectedItems.length >= todoItems.length) {
-        selectedTodoItemsChangeAction([]);
+      if (selectedItems.length >= cityItems.length) {
+        selectedCityItemsChangeAction([]);
       } else {
-        selectedTodoItemsChangeAction(todoItems.map((x) => x.id));
+        selectedCityItemsChangeAction(cityItems.map((x) => x.id));
       }
     }
   };
@@ -108,10 +109,10 @@ const TodoApp = ({
   return (
     <>
       <Row className="app-row survey-app">
-        <Colxx xxs="12">
+        <Colxx xxs="12" md="12" lg="12">
           <div className="mb-2">
             <h1>
-              <IntlMessages id="menu.todo" />
+              <IntlMessages id="menu.location" />
             </h1>
             {loaded && (
               <div className="text-zero top-right-button-container">
@@ -132,14 +133,19 @@ const TodoApp = ({
                       className="custom-checkbox mb-0 d-inline-block"
                       type="checkbox"
                       id="checkAll"
-                      checked={selectedItems.length >= todoItems.length}
+                      checked={
+                        selectedItems &&
+                        cityItems &&
+                        selectedItems.length >= cityItems.length
+                      }
                       onClick={() => handleChangeSelectAll()}
                       onChange={() => handleChangeSelectAll()}
                       label={
                         <span
                           className={`custom-control-label ${
+                            selectedItems &&
                             selectedItems.length > 0 &&
-                            selectedItems.length < todoItems.length
+                            selectedItems.length < cityItems.length
                               ? 'indeterminate'
                               : ''
                           }`}
@@ -187,16 +193,17 @@ const TodoApp = ({
                     {orderColumn ? orderColumn.label : ''}
                   </DropdownToggle>
                   <DropdownMenu>
-                    {orderColumns.map((o, index) => {
-                      return (
-                        <DropdownItem
-                          key={index}
-                          onClick={() => getTodoListWithOrderAction(o.column)}
-                        >
-                          {o.label}
-                        </DropdownItem>
-                      );
-                    })}
+                    {orderColumns &&
+                      orderColumns.map((o, index) => {
+                        return (
+                          <DropdownItem
+                            key={index}
+                            onClick={() => getCityListWithOrderAction(o.column)}
+                          >
+                            {o.label}
+                          </DropdownItem>
+                        );
+                      })}
                   </DropdownMenu>
                 </UncontrolledDropdown>
                 <div className="search-sm d-inline-block float-md-left mr-1 mb-1 align-top">
@@ -208,7 +215,7 @@ const TodoApp = ({
                     defaultValue={searchKeyword}
                     onKeyPress={(e) => {
                       if (e.key === 'Enter') {
-                        getTodoListSearchAction(e.target.value);
+                        getCityListSearchAction(e.target.value);
                       }
                     }}
                   />
@@ -219,7 +226,8 @@ const TodoApp = ({
           <Separator className="mb-5" />
           <Row>
             {loaded ? (
-              todoItems.map((item, index) => (
+              cityItems &&
+              cityItems.map((item, index) => (
                 <TodoListItem
                   key={`todo_item_${index}`}
                   item={item}
@@ -233,8 +241,8 @@ const TodoApp = ({
           </Row>
         </Colxx>
       </Row>
-      {loaded && <TodoApplicationMenu />}
-      <AddNewTodoModal
+      {/* {loaded && <TodoApplicationMenu />} */}
+      <AddNewCityModal
         toggleModal={() => setModalOpen(!modalOpen)}
         modalOpen={modalOpen}
       />
@@ -242,17 +250,17 @@ const TodoApp = ({
   );
 };
 
-const mapStateToProps = ({ todoApp }) => {
+const mapStateToProps = ({ location }) => {
   const {
-    todoItems,
+    cityItems,
     searchKeyword,
     loaded,
     orderColumn,
     orderColumns,
     selectedItems,
-  } = todoApp;
+  } = location;
   return {
-    todoItems,
+    cityItems,
     searchKeyword,
     loaded,
     orderColumn,
@@ -262,9 +270,9 @@ const mapStateToProps = ({ todoApp }) => {
 };
 export default injectIntl(
   connect(mapStateToProps, {
-    getTodoListAction: getTodoList,
-    getTodoListWithOrderAction: getTodoListWithOrder,
-    getTodoListSearchAction: getTodoListSearch,
-    selectedTodoItemsChangeAction: selectedTodoItemsChange,
-  })(TodoApp)
+    getCityListAction: getCityList,
+    getCityListWithOrderAction: getCityListWithOrder,
+    getCityListSearchAction: getCityListSearch,
+    selectedCityItemsChangeAction: selectedCityItemsChange,
+  })(Location)
 );

@@ -1,6 +1,7 @@
+/* eslint-disable no-unused-vars */
 import { all, call, fork, put, takeEvery } from 'redux-saga/effects';
 import { auth } from 'helpers/Firebase';
-import { adminRoot, currentUser } from 'constants/defaultValues';
+import { adminRoot, currentUser, apiPath } from 'constants/defaultValues';
 import { setCurrentUser } from 'helpers/Utils';
 import {
   LOGIN_USER,
@@ -23,7 +24,7 @@ import {
 
 export function* watchLoginUser() {
   // eslint-disable-next-line no-use-before-define
-  yield takeEvery(LOGIN_USER, loginWithEmailPassword);
+  yield takeEvery(LOGIN_USER, loginWithGoogle);
 }
 
 const loginWithEmailPasswordAsync = async (email, password) =>
@@ -32,6 +33,25 @@ const loginWithEmailPasswordAsync = async (email, password) =>
     .signInWithEmailAndPassword(email, password)
     .then((user) => user)
     .catch((error) => error);
+
+const validateToken = (token) => {
+  return fetch(`${apiPath}auth/verify-token`, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+      'Content-Type': 'application/json',
+    },
+  })
+    .then((res) => {
+      if (res.status === 200) {
+        return res.json();
+      }
+      return false;
+    })
+    .catch((err) => {
+      console.error(err);
+      return false;
+    });
+};
 
 function* loginWithEmailPassword({ payload }) {
   const { email, password } = payload.user;
@@ -45,6 +65,24 @@ function* loginWithEmailPassword({ payload }) {
       history.push(adminRoot);
     } else {
       yield put(loginUserError(loginUser.message));
+    }
+  } catch (error) {
+    yield put(loginUserError(error));
+  }
+}
+
+function* loginWithGoogle({ payload }) {
+  const { user, token } = payload.user;
+  const { history } = payload;
+  try {
+    const loginUser = yield call(validateToken, token);
+    if (loginUser && loginUser?.isAdmin) {
+      const item = { token, ...user };
+      setCurrentUser(item);
+      yield put(loginUserSuccess(user));
+      history.push(adminRoot);
+    } else {
+      yield put(loginUserError('invalid token'));
     }
   } catch (error) {
     yield put(loginUserError(error));
@@ -91,10 +129,10 @@ export function* watchLogoutUser() {
 }
 
 const logoutAsync = async (history) => {
-  await auth
-    .signOut()
-    .then((user) => user)
-    .catch((error) => error);
+  // await auth
+  //   .signOut()
+  //   .then((user) => user)
+  //   .catch((error) => error);
   history.push(adminRoot);
 };
 

@@ -173,3 +173,17 @@ export const setCurrentUser = (user) => {
     console.log('>>>>: src/helpers/Utils.js : setCurrentUser -> error', error);
   }
 };
+
+export const getUserToken = () => {
+  let user = null;
+  try {
+    user =
+      localStorage.getItem('gogo_current_user') != null
+        ? JSON.parse(localStorage.getItem('gogo_current_user'))
+        : null;
+  } catch (error) {
+    console.log('>>>>: src/helpers/Utils.js  : getUserToken -> error', error);
+    user = null;
+  }
+  return user?.token;
+};

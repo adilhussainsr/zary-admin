@@ -16,6 +16,7 @@ const Login = React.lazy(() =>
 // );
 
 const User = ({ match }) => {
+  console.log(match);
   return (
     <UserLayout>
       <Suspense fallback={<div className="loading" />}>

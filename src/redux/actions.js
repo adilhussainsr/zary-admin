@@ -22,17 +22,17 @@ export {
   resetPasswordError,
 } from './auth/actions';
 export {
-  addTodoItem,
-  addTodoItemError,
-  addTodoItemSuccess,
-  getTodoListError,
-  getTodoList,
-  getTodoListSearch,
-  getTodoListSuccess,
-  getTodoListWithFilter,
-  getTodoListWithOrder,
-  selectedTodoItemsChange,
-} from './todo/actions';
+  addCityItem,
+  addCityItemError,
+  addCityItemSuccess,
+  getCityListError,
+  getCityList,
+  getCityListSearch,
+  getCityListSuccess,
+  getCityListWithFilter,
+  getCityListWithOrder,
+  selectedCityItemsChange,
+} from './location/actions';
 export {
   addMessageToConversation,
   changeConversation,

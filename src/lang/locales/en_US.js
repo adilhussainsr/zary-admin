@@ -43,6 +43,8 @@ module.exports = {
   'unauthorized.detail':
     'You are not authorized to view the page you are trying to access.',
 
+  'app.zary': 'Zary',
+  'app.welcome': 'Welcome Admin',
   /* 02.User Login, Logout, Register */
   'user.login-title': 'Login',
   'user.register': 'Register',
@@ -60,7 +62,12 @@ module.exports = {
   'user.new-password': 'New Password',
   'user.reset-password': 'Reset Password',
   /* 03.Menu */
+  'menu.dashboard': 'Dashboard',
+  'menu.force': 'Force management',
+  'menu.booking': 'Booking Management',
   'menu.home': 'Home',
+  'menu.logout': 'Logout',
+  'menu.location': 'Location Management',
   'menu.app': 'Home',
   'menu.dashboards': 'Dashboards',
   'menu.default': 'Default',
@@ -294,6 +301,12 @@ module.exports = {
   'survey.active-surveys': 'Active Surveys',
   'survey.labels': 'Labels',
 
+  /* City */
+  'city.add-new-name': 'Add new City/Zip',
+  'city.select': 'Select a city',
+  'city.enter-name': 'Enter city name',
+  'city.add-new': 'Add new city',
+  'city.enter-zip': 'Enter zip code',
   /* 06.03.Todo */
   'todo.add-new': 'ADD NEW',
   'todo.add-new-title': 'Add New Todo',

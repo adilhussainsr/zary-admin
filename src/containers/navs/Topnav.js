@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 /* eslint-disable jsx-a11y/no-static-element-interactions */
 /* eslint-disable no-use-before-define */
@@ -48,6 +49,7 @@ const TopNav = ({
   clickOnMobileMenuAction,
   logoutUserAction,
   changeLocaleAction,
+  currentUser,
 }) => {
   const [isInFullScreen, setIsInFullScreen] = useState(false);
   const [searchKeyword, setSearchKeyword] = useState('');
@@ -80,33 +82,6 @@ const TopNav = ({
     );
   };
 
-  const handleSearchIconClick = (e) => {
-    if (window.innerWidth < menuHiddenBreakpoint) {
-      let elem = e.target;
-      if (!e.target.classList.contains('search')) {
-        if (e.target.parentElement.classList.contains('search')) {
-          elem = e.target.parentElement;
-        } else if (
-          e.target.parentElement.parentElement.classList.contains('search')
-        ) {
-          elem = e.target.parentElement.parentElement;
-        }
-      }
-
-      if (elem.classList.contains('mobile-view')) {
-        search();
-        elem.classList.remove('mobile-view');
-        removeEventsSearch();
-      } else {
-        elem.classList.add('mobile-view');
-        addEventsSearch();
-      }
-    } else {
-      search();
-    }
-    e.stopPropagation();
-  };
-
   const handleDocumentClickSearch = (e) => {
     let isSearchClick = false;
     if (
@@ -137,16 +112,6 @@ const TopNav = ({
 
   const removeEventsSearch = () => {
     document.removeEventListener('click', handleDocumentClickSearch, true);
-  };
-
-  const addEventsSearch = () => {
-    document.addEventListener('click', handleDocumentClickSearch, true);
-  };
-
-  const handleSearchInputKeyPress = (e) => {
-    if (e.key === 'Enter') {
-      search();
-    }
   };
 
   const toggleFullScreen = () => {
@@ -222,23 +187,6 @@ const TopNav = ({
           <MobileMenuIcon />
         </NavLink>
 
-        <div className="search">
-          <Input
-            name="searchKeyword"
-            id="searchKeyword"
-            placeholder={messages['menu.search']}
-            value={searchKeyword}
-            onChange={(e) => setSearchKeyword(e.target.value)}
-            onKeyPress={(e) => handleSearchInputKeyPress(e)}
-          />
-          <span
-            className="search-icon"
-            onClick={(e) => handleSearchIconClick(e)}
-          >
-            <i className="simple-icon-magnifier" />
-          </span>
-        </div>
-
         <div className="d-inline-block">
           <UncontrolledDropdown className="ml-2">
             <DropdownToggle
@@ -263,15 +211,6 @@ const TopNav = ({
             </DropdownMenu>
           </UncontrolledDropdown>
         </div>
-        <div className="position-relative d-none d-none d-lg-inline-block">
-          <a
-            className="btn btn-outline-primary btn-sm ml-2"
-            target="_top"
-            href={buyUrl}
-          >
-            <IntlMessages id="user.buy" />
-          </a>
-        </div>
       </div>
       <NavLink className="navbar-logo" to={adminRoot}>
         <span className="logo d-none d-xs-block" />
@@ -281,7 +220,6 @@ const TopNav = ({
       <div className="navbar-right">
         {isDarkSwitchActive && <TopnavDarkSwitch />}
         <div className="header-icons d-inline-block align-middle">
-          <TopnavEasyAccess />
           <TopnavNotifications />
           <button
             className="header-icon btn btn-empty d-none d-sm-inline-block"
@@ -299,16 +237,16 @@ const TopNav = ({
         <div className="user d-inline-block">
           <UncontrolledDropdown className="dropdown-menu-right">
             <DropdownToggle className="p-0" color="empty">
-              <span className="name mr-1">Sarah Kortney</span>
+              <span className="name mr-1">{currentUser.fullName}</span>
               <span>
-                <img alt="Profile" src="/assets/img/profiles/l-1.jpg" />
+                <img alt="Profile" src={currentUser.profileImagePath} />
               </span>
             </DropdownToggle>
             <DropdownMenu className="mt-3" right>
               <DropdownItem>Account</DropdownItem>
-              <DropdownItem>Features</DropdownItem>
+              {/* <DropdownItem>Features</DropdownItem>
               <DropdownItem>History</DropdownItem>
-              <DropdownItem>Support</DropdownItem>
+              <DropdownItem>Support</DropdownItem> */}
               <DropdownItem divider />
               <DropdownItem onClick={() => handleLogout()}>
                 Sign out
@@ -321,14 +259,16 @@ const TopNav = ({
   );
 };
 
-const mapStateToProps = ({ menu, settings }) => {
+const mapStateToProps = ({ menu, settings, authUser }) => {
   const { containerClassnames, menuClickCount, selectedMenuHasSubItems } = menu;
   const { locale } = settings;
+  const { currentUser } = authUser;
   return {
     containerClassnames,
     menuClickCount,
     selectedMenuHasSubItems,
     locale,
+    currentUser,
   };
 };
 export default injectIntl(

@@ -1,89 +1,77 @@
 import {
-  TODO_GET_LIST,
-  TODO_GET_LIST_SUCCESS,
-  TODO_GET_LIST_ERROR,
-  TODO_GET_LIST_WITH_FILTER,
-  TODO_GET_LIST_WITH_ORDER,
-  TODO_GET_LIST_SEARCH,
-  TODO_ADD_ITEM,
-  TODO_ADD_ITEM_SUCCESS,
-  TODO_ADD_ITEM_ERROR,
-  TODO_SELECTED_ITEMS_CHANGE,
+  CITY_GET_LIST,
+  CITY_GET_LIST_SUCCESS,
+  CITY_GET_LIST_ERROR,
+  CITY_GET_LIST_WITH_FILTER,
+  CITY_GET_LIST_WITH_ORDER,
+  CITY_GET_LIST_SEARCH,
+  CITY_ADD_ITEM,
+  CITY_ADD_ITEM_SUCCESS,
+  CITY_ADD_ITEM_ERROR,
+  CITY_SELECTED_ITEMS_CHANGE,
 } from '../contants';
 
 const INIT_STATE = {
-  allTodoItems: null,
-  todoItems: null,
+  allCityItems: null,
+  cityItems: null,
   error: '',
   filter: null,
   searchKeyword: '',
   orderColumn: null,
   loaded: false,
-  labels: [
-    { label: 'EDUCATION', color: 'secondary' },
-    { label: 'NEW FRAMEWORK', color: 'primary' },
-    { label: 'PERSONAL', color: 'info' },
-  ],
-  orderColumns: [
-    { column: 'title', label: 'Title' },
-    { column: 'category', label: 'Category' },
-    { column: 'status', label: 'Status' },
-    { column: 'label', label: 'Label' },
-  ],
-  categories: ['Flexbox', 'Sass', 'React'],
   selectedItems: [],
 };
 
 export default (state = INIT_STATE, action) => {
   switch (action.type) {
-    case TODO_GET_LIST:
+    case CITY_GET_LIST:
       return { ...state, loaded: false };
 
-    case TODO_GET_LIST_SUCCESS:
+    case CITY_GET_LIST_SUCCESS:
       return {
         ...state,
         loaded: true,
-        allTodoItems: action.payload,
-        todoItems: action.payload,
+        allCityItems: action.payload,
+        cityItems: action.payload,
       };
 
-    case TODO_GET_LIST_ERROR:
+    case CITY_GET_LIST_ERROR:
       return { ...state, loaded: true, error: action.payload };
 
-    case TODO_GET_LIST_WITH_FILTER:
+    case CITY_GET_LIST_WITH_FILTER:
       if (action.payload.column === '' || action.payload.value === '') {
         return {
           ...state,
           loaded: true,
-          todoItems: state.allTodoItems,
+          cityItems: state.allCityItems,
           filter: null,
         };
       }
       // eslint-disable-next-line no-case-declarations
-      const filteredItems = state.allTodoItems.filter(
+      const filteredItems = state.allCityItems.filter(
         (item) => item[action.payload.column] === action.payload.value
       );
       return {
         ...state,
         loaded: true,
-        todoItems: filteredItems,
+        cityItems: filteredItems,
         filter: {
           column: action.payload.column,
           value: action.payload.value,
         },
       };
 
-    case TODO_GET_LIST_WITH_ORDER:
+    case CITY_GET_LIST_WITH_ORDER:
       if (action.payload === '') {
         return {
           ...state,
           loaded: true,
-          todoItems: state.todoItems,
+          cityItems: state.cityItems,
           orderColumn: null,
         };
       }
       // eslint-disable-next-line no-case-declarations
-      const sortedItems = state.todoItems.sort((a, b) => {
+      const sortedItems = state.cityItems.sort((a, b) => {
         if (a[action.payload] < b[action.payload]) return -1;
         if (a[action.payload] > b[action.payload]) return 1;
         return 0;
@@ -91,20 +79,20 @@ export default (state = INIT_STATE, action) => {
       return {
         ...state,
         loaded: true,
-        todoItems: sortedItems,
+        cityItems: sortedItems,
         orderColumn: state.orderColumns.find(
           (x) => x.column === action.payload
         ),
       };
 
-    case TODO_GET_LIST_SEARCH:
+    case CITY_GET_LIST_SEARCH:
       if (action.payload === '') {
-        return { ...state, todoItems: state.allTodoItems };
+        return { ...state, cityItems: state.allCityItems };
       }
       // eslint-disable-next-line no-case-declarations
       const keyword = action.payload.toLowerCase();
       // eslint-disable-next-line no-case-declarations
-      const searchItems = state.allTodoItems.filter(
+      const searchItems = state.allCityItems.filter(
         (item) =>
           item.title.toLowerCase().indexOf(keyword) > -1 ||
           item.detail.toLowerCase().indexOf(keyword) > -1 ||
@@ -115,25 +103,25 @@ export default (state = INIT_STATE, action) => {
       return {
         ...state,
         loaded: true,
-        todoItems: searchItems,
+        cityItems: searchItems,
         searchKeyword: action.payload,
       };
 
-    case TODO_ADD_ITEM:
+    case CITY_ADD_ITEM:
       return { ...state, loaded: false };
 
-    case TODO_ADD_ITEM_SUCCESS:
+    case CITY_ADD_ITEM_SUCCESS:
       return {
         ...state,
         loaded: true,
-        allTodoItems: action.payload,
-        todoItems: action.payload,
+        allCityItems: action.payload,
+        cityItems: action.payload,
       };
 
-    case TODO_ADD_ITEM_ERROR:
+    case CITY_ADD_ITEM_ERROR:
       return { ...state, loaded: true, error: action.payload };
 
-    case TODO_SELECTED_ITEMS_CHANGE:
+    case CITY_SELECTED_ITEMS_CHANGE:
       return { ...state, loaded: true, selectedItems: action.payload };
     default:
       return { ...state };

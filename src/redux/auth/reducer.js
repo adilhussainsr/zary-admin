@@ -33,7 +33,8 @@ export default (state = INIT_STATE, action) => {
       return {
         ...state,
         loading: false,
-        currentUser: action.payload,
+        currentUser: action.payload.user,
+        token: action.payload.token,
         error: '',
       };
     case LOGIN_USER_ERROR:

@@ -13,7 +13,7 @@ const ProtectedRoute = ({
       const currentUser = getCurrentUser();
       if (currentUser) {
         if (roles) {
-          if (roles.includes(currentUser.role)) {
+          if (roles.some((role) => currentUser.role === role)) {
             return <Component {...props} />;
           }
           return (

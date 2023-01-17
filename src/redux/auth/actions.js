@@ -18,9 +18,9 @@ export const loginUser = (user, history) => ({
   type: LOGIN_USER,
   payload: { user, history },
 });
-export const loginUserSuccess = (user) => ({
+export const loginUserSuccess = (user, token) => ({
   type: LOGIN_USER_SUCCESS,
-  payload: user,
+  payload: { user, token },
 });
 export const loginUserError = (message) => ({
   type: LOGIN_USER_ERROR,

@@ -19,11 +19,14 @@ import {
 import { getDirection } from './helpers/Utils';
 import { ProtectedRoute } from './helpers/authHelper';
 
-const ViewHome = React.lazy(() =>
-  import(/* webpackChunkName: "views" */ './views/home')
-);
-const ViewApp = React.lazy(() =>
-  import(/* webpackChunkName: "views-app" */ './views/app')
+// const ViewHome = React.lazy(() =>
+//   import(/* webpackChunkName: "views" */ './views/home')
+// );
+// const ViewApp = React.lazy(() =>
+//   import(/* webpackChunkName: "views-app" */ './views/app')
+// );
+const AdminApp = React.lazy(() =>
+  import(/* webpackChunkName: "views-app" */ './views/admin')
 );
 const ViewUser = React.lazy(() =>
   import(/* webpackChunkName: "views-user" */ './views/user')
@@ -60,12 +63,15 @@ const App = ({ locale }) => {
           <Suspense fallback={<div className="loading" />}>
             <Router>
               <Switch>
+                <Route
+                  path="/user"
+                  render={(props) => <ViewUser {...props} />}
+                />
                 <ProtectedRoute
                   path={adminRoot}
-                  component={ViewApp}
-                  roles={[UserRole.Admin, UserRole.Editor]}
+                  component={AdminApp}
+                  roles={[UserRole.Admin]}
                 />
-                <Route render={(props) => <ViewUser {...props} />} />
                 <Route
                   path="/error"
                   exact
@@ -76,11 +82,11 @@ const App = ({ locale }) => {
                   exact
                   render={(props) => <ViewUnauthorized {...props} />}
                 />
-                <Route
+                {/* <Route
                   path="/dashboard"
                   exact
                   render={(props) => <ViewHome {...props} />}
-                />
+                /> */}
                 {/*
                 <Redirect exact from="/" to={adminRoot} />
                 */}

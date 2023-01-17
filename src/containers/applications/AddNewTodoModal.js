@@ -14,7 +14,7 @@ import Select from 'react-select';
 import CustomSelectInput from 'components/common/CustomSelectInput';
 import IntlMessages from 'helpers/IntlMessages';
 
-import { addTodoItem } from 'redux/actions';
+import { addCityItem } from 'redux/actions';
 
 const initialState = {
   title: '',
@@ -29,7 +29,7 @@ const AddNewTodoModal = ({
   toggleModal,
   labels,
   categories,
-  addTodoItemAction,
+  addCityItemAction,
 }) => {
   const [state, setState] = useState(initialState);
 
@@ -42,7 +42,7 @@ const AddNewTodoModal = ({
       category: state.category.value,
       status: state.status,
     };
-    addTodoItemAction(newItem);
+    addCityItemAction(newItem);
     toggleModal();
     setState(initialState);
   };
@@ -163,5 +163,5 @@ const mapStateToProps = ({ todoApp }) => {
   };
 };
 export default connect(mapStateToProps, {
-  addTodoItemAction: addTodoItem,
+  addCityItemAction: addCityItem,
 })(AddNewTodoModal);
