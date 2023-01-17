@@ -66,7 +66,7 @@ const AddNewCityModal = ({
         </Label>
         <Input
           type="text"
-          defaultValue={state.title}
+          value={state.title}
           onChange={(event) =>
             setState({ ...state, title: event.target.value })
           }
@@ -99,7 +99,7 @@ const AddNewCityModal = ({
         </Label>
         <Input
           type="text"
-          defaultValue={state.zip}
+          value={state.zip}
           onChange={(event) => setState({ ...state, zip: event.target.value })}
         />
       </ModalBody>
