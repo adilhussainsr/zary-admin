@@ -1,40 +1,31 @@
 /* eslint-disable no-unused-vars */
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
-import {
-  CustomInput,
-  Button,
-  Modal,
-  ModalHeader,
-  ModalBody,
-  ModalFooter,
-  Input,
-  Label,
-  Row,
-} from 'reactstrap';
-import Select from 'react-select';
-import CustomSelectInput from 'components/common/CustomSelectInput';
-import IntlMessages from 'helpers/IntlMessages';
-
-import { addCityItem } from 'redux/actions';
-import { NotificationManager } from 'components/common/react-notifications';
-import { addZipItem } from 'redux/location/actions';
+import { Modal, ModalHeader, ModalBody, Input, Label, Row } from 'reactstrap';
+import { BsArrowDown, BsArrowUp } from 'react-icons/bs';
+import { removeZipItem } from 'redux/location/actions';
 
 const initialState = {
-  selectedCity: null,
-  title: '',
   zip: '',
-  area: '',
 };
 
-const ViewZipModal = ({
-  modalOpen,
-  toggleModal,
-
-  city,
-}) => {
+const ViewZipModal = ({ modalOpen, toggleModal, city, removeZipAction }) => {
   const [state, setState] = useState(initialState);
+  const [filteredZip, setFilteredZip] = useState(city?.zip_codes || []);
 
+  useEffect(() => {
+    console.log(city);
+    if (city?.zip_codes && state?.zip?.length) {
+      console.log(state.zip);
+      const zips = city.zip_codes.filter((code) => {
+        const str = `${code?.zip || ''}${code?.areaName || ''}`;
+        return str.includes(state.zip);
+      });
+      setFilteredZip(zips);
+    } else {
+      setFilteredZip(city?.zip_codes || []);
+    }
+  }, [state.zip, city && city?.zip_codes]);
   // const addNewZip = () => {
   //   const newItem = {
   //     zip: state.zip,
@@ -86,6 +77,9 @@ const ViewZipModal = ({
   //   // toggleModal();
   //   setState(initialState);
   // };
+  const deleteZip = (zipCode) => {
+    removeZipAction(zipCode.id);
+  };
 
   if (!city) {
     return null;
@@ -100,15 +94,38 @@ const ViewZipModal = ({
       <ModalHeader toggle={toggleModal}>City: {city.name}</ModalHeader>
       <ModalBody>
         <h3 className="mt-4">
-          Status: {city.isActive ? 'Active' : 'InActive'}
+          City Status: {city.isActive ? 'Active' : 'InActive'}
         </h3>
         <br />
-        {city.zip_codes?.length ? (
+        <Input
+          type="text"
+          placeholder="Search here"
+          value={state.zip}
+          onChange={(event) => setState({ ...state, zip: event.target.value })}
+        />
+        {filteredZip?.length ? (
           <>
-            {city.zip_codes.map((code) => (
-              <Row key={code.id}>
-                <Label>{code.zip}</Label>
-                <Label>{code.isActive ? 'Active' : 'Inactive'}</Label>
+            {filteredZip.map((code) => (
+              <Row key={code.id} className="my-2 w-100 mx-2">
+                <Label>
+                  {code.zip} {code.areaName ? `(${code.areaName})` : ''}
+                </Label>
+                <Label className="ml-auto">
+                  {code.isActive ? 'Active' : 'Inactive'}
+                </Label>
+                {code.isActive ? (
+                  <BsArrowDown
+                    onClick={() => deleteZip(code)}
+                    className="ml-1"
+                    style={{ cursor: 'pointer' }}
+                  />
+                ) : (
+                  <BsArrowUp
+                    onClick={() => deleteZip(code)}
+                    className="ml-1"
+                    style={{ cursor: 'pointer' }}
+                  />
+                )}
               </Row>
             ))}
           </>
@@ -127,6 +144,5 @@ const mapStateToProps = ({ location }) => {
   };
 };
 export default connect(mapStateToProps, {
-  addCityItemAction: addCityItem,
-  addZipItemAction: addZipItem,
+  removeZipAction: removeZipItem,
 })(ViewZipModal);

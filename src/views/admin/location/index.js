@@ -61,6 +61,15 @@ const Location = ({
   const [selectedCity, setSelectedCity] = useState(null);
 
   useEffect(() => {
+    if (selectedCity) {
+      const updatedCity = cityItems?.find(
+        (city) => city.id === selectedCity?.id
+      );
+      setSelectedCity(updatedCity);
+    }
+  }, [cityItems, selectedCity]);
+
+  useEffect(() => {
     document.body.classList.add('right-menu');
     getCityListAction();
 
