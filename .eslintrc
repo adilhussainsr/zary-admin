@@ -50,10 +50,7 @@
     "react-hooks/exhaustive-deps": 0,
     "react/jsx-props-no-spreading": 0,
     "no-console": "off",
-    "react/prop-types": 0,
-    "prettier/prettier": [
-      "warn"
-    ]
+    "react/prop-types": 0
   },
   "globals": {
     "window": true,
