@@ -16,19 +16,22 @@ import CustomSelectInput from 'components/common/CustomSelectInput';
 import IntlMessages from 'helpers/IntlMessages';
 
 import { addCityItem } from 'redux/actions';
+import { NotificationManager } from 'components/common/react-notifications';
+import { addZipItem } from 'redux/location/actions';
 
 const initialState = {
   selectedCity: null,
   title: '',
   zip: '',
+  area: '',
 };
 
 const AddNewCityModal = ({
   modalOpen,
   toggleModal,
   cities,
-  labels,
   addCityItemAction,
+  addZipItemAction,
 }) => {
   const [state, setState] = useState(initialState);
   // const [isCreateCity, setIsCreateCity] = useState(true);
@@ -36,10 +39,46 @@ const AddNewCityModal = ({
   const addNewZip = () => {
     const newItem = {
       zip: state.zip,
+      areaName: state.area,
+      city_id: state.selectedCity?.id,
     };
-    // addCityItemAction(newItem);
-    // toggleModal();
-    // setState(initialState);
+    console.log(newItem);
+    if (!newItem.city_id) {
+      NotificationManager.warning(
+        'Please select a city',
+        'City not selected',
+        3000,
+        null,
+        null,
+        ''
+      );
+      return;
+    }
+    if (newItem.zip.length < 6) {
+      NotificationManager.warning(
+        'Please enter a valid zip code',
+        'Invalid Zip',
+        3000,
+        null,
+        null,
+        ''
+      );
+      return;
+    }
+    if (!newItem.areaName?.length) {
+      NotificationManager.warning(
+        'Please enter a valid Area Name',
+        'Invalid Area',
+        3000,
+        null,
+        null,
+        ''
+      );
+      return;
+    }
+    addZipItemAction(newItem);
+    toggleModal();
+    setState(initialState);
   };
   const addNewCity = () => {
     const newItem = {
@@ -86,7 +125,7 @@ const AddNewCityModal = ({
           options={
             cities
               ? cities.map((x, i) => {
-                  return { label: x.name, value: x.name, key: i };
+                  return { id: x.id, label: x.name, value: x.name, key: i };
                 })
               : []
           }
@@ -101,6 +140,14 @@ const AddNewCityModal = ({
           type="text"
           value={state.zip}
           onChange={(event) => setState({ ...state, zip: event.target.value })}
+        />
+        <Label className="mt-4">
+          <IntlMessages id="city.enter-area" />
+        </Label>
+        <Input
+          type="text"
+          value={state.area}
+          onChange={(event) => setState({ ...state, area: event.target.value })}
         />
       </ModalBody>
       <ModalFooter>
@@ -124,4 +171,5 @@ const mapStateToProps = ({ location }) => {
 };
 export default connect(mapStateToProps, {
   addCityItemAction: addCityItem,
+  addZipItemAction: addZipItem,
 })(AddNewCityModal);

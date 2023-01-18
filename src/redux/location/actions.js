@@ -9,6 +9,9 @@ import {
   CITY_ADD_ITEM_SUCCESS,
   CITY_ADD_ITEM_ERROR,
   CITY_SELECTED_ITEMS_CHANGE,
+  ZIP_ADD_ITEM,
+  ZIP_ADD_ITEM_SUCCESS,
+  ZIP_ADD_ITEM_ERROR,
 } from '../contants';
 
 export const getCityList = () => ({
@@ -45,6 +48,11 @@ export const addCityItem = (item) => ({
   payload: item,
 });
 
+export const addZipItem = (item) => ({
+  type: ZIP_ADD_ITEM,
+  payload: item,
+});
+
 export const addCityItemSuccess = (items) => ({
   type: CITY_ADD_ITEM_SUCCESS,
   payload: items,
@@ -52,6 +60,16 @@ export const addCityItemSuccess = (items) => ({
 
 export const addCityItemError = (error) => ({
   type: CITY_ADD_ITEM_ERROR,
+  payload: error,
+});
+
+export const addZipItemSuccess = (items) => ({
+  type: ZIP_ADD_ITEM_SUCCESS,
+  payload: items,
+});
+
+export const addZipItemError = (error) => ({
+  type: ZIP_ADD_ITEM_ERROR,
   payload: error,
 });
 

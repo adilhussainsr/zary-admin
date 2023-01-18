@@ -87,9 +87,7 @@ const App = ({ locale }) => {
                   exact
                   render={(props) => <ViewHome {...props} />}
                 /> */}
-                {/*
                 <Redirect exact from="/" to={adminRoot} />
-                */}
                 <Redirect to="/error" />
               </Switch>
             </Router>

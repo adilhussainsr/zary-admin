@@ -37,9 +37,9 @@ export const apiWithAuthToken = (method, url, body) => {
       headers: getApiHeader(),
     })
       .then((response) => {
-        if (response.status === 201) {
-          return Promise.all([response, {}]);
-        }
+        // if (response.status === 201) {
+        //   return Promise.all([response, {}]);
+        // }
         return Promise.all([response, response.json()]);
       })
       .then(([response, responseObj]) => {

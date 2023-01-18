@@ -18,6 +18,20 @@ const INIT_STATE = {
   filter: null,
   searchKeyword: '',
   orderColumn: null,
+  orderColumns: [
+    {
+      column: 'Id',
+      label: 'ID',
+    },
+    {
+      column: 'name',
+      label: 'Name',
+    },
+    {
+      column: 'createdAt',
+      label: 'Latest',
+    },
+  ],
   loaded: false,
   selectedItems: [],
 };
@@ -93,12 +107,7 @@ export default (state = INIT_STATE, action) => {
       const keyword = action.payload.toLowerCase();
       // eslint-disable-next-line no-case-declarations
       const searchItems = state.allCityItems.filter(
-        (item) =>
-          item.title.toLowerCase().indexOf(keyword) > -1 ||
-          item.detail.toLowerCase().indexOf(keyword) > -1 ||
-          item.status.toLowerCase().indexOf(keyword) > -1 ||
-          item.category.toLowerCase().indexOf(keyword) > -1 ||
-          item.label.toLowerCase().indexOf(keyword) > -1
+        (item) => item.name.toLowerCase().indexOf(keyword) > -1
       );
       return {
         ...state,

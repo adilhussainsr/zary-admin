@@ -1,5 +1,11 @@
 import React, { Suspense, useEffect } from 'react';
-import { Route, withRouter, Switch, Redirect, useHistory } from 'react-router-dom';
+import {
+  Route,
+  withRouter,
+  Switch,
+  Redirect,
+  useHistory,
+} from 'react-router-dom';
 import { connect, useDispatch } from 'react-redux';
 
 import AppLayout from 'layout/AppLayout';

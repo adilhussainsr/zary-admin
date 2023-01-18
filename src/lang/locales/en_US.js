@@ -303,10 +303,13 @@ module.exports = {
 
   /* City */
   'city.add-new-name': 'Add new City/Zip',
+  'city.view-zip': 'View Zip',
   'city.select': 'Select a city',
   'city.enter-name': 'Enter city name',
   'city.add-new': 'Add new city',
   'city.enter-zip': 'Enter zip code',
+  'city.enter-area': 'Area Name',
+  city: 'City:',
   /* 06.03.Todo */
   'todo.add-new': 'ADD NEW',
   'todo.add-new-title': 'Add New Todo',

@@ -28,6 +28,8 @@ import {
 import TodoListItem from 'components/applications/TodoListItem';
 import TodoApplicationMenu from 'containers/applications/TodoApplicationMenu';
 import AddNewCityModal from 'containers/applications/AddNewCityModal';
+import CityListItem from 'components/applications/CityListItem';
+import ViewZipModal from 'containers/applications/ViewZipModal';
 
 const getIndex = (value, arr, prop) => {
   for (let i = 0; i < arr.length; i += 1) {
@@ -56,6 +58,7 @@ const Location = ({
   const [dropdownSplitOpen, setDropdownSplitOpen] = useState(false);
   const [displayOptionsIsOpen, setDisplayOptionsIsOpen] = useState(false);
   const [lastChecked, setLastChecked] = useState(null);
+  const [selectedCity, setSelectedCity] = useState(null);
 
   useEffect(() => {
     document.body.classList.add('right-menu');
@@ -228,9 +231,10 @@ const Location = ({
             {loaded ? (
               cityItems &&
               cityItems.map((item, index) => (
-                <TodoListItem
-                  key={`todo_item_${index}`}
+                <CityListItem
+                  key={`city_item_${index}`}
                   item={item}
+                  onClick={() => setSelectedCity(item)}
                   handleCheckChange={handleCheckChange}
                   isSelected={loaded ? selectedItems.includes(item.id) : false}
                 />
@@ -245,6 +249,11 @@ const Location = ({
       <AddNewCityModal
         toggleModal={() => setModalOpen(!modalOpen)}
         modalOpen={modalOpen}
+      />
+      <ViewZipModal
+        city={selectedCity}
+        toggleModal={() => setSelectedCity(null)}
+        modalOpen={!!selectedCity}
       />
     </>
   );
