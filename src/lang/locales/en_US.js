@@ -638,6 +638,7 @@ module.exports = {
 
   /* 07.20.Tables */
   'table.bootstrap-tables': 'Bootstrap Tables',
+  'table.manage-booking': 'Manage Booking',
   'table.bootstrap-basic': 'Basic Table',
   'table.bootstrap-striped': 'Striped Rows',
   'table.bootstrap-bordered': 'Bordered Table',

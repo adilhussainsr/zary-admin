@@ -10,9 +10,17 @@ import { connect, useDispatch } from 'react-redux';
 
 import AppLayout from 'layout/AppLayout';
 import { logoutUser } from 'redux/actions';
-import Location from './location';
-// import { ProtectedRoute, UserRole } from 'helpers/authHelper';
 
+// import { ProtectedRoute, UserRole } from 'helpers/authHelper';
+const Location = React.lazy(() =>
+  import(/* webpackChunkName: "dashboards" */ './location')
+);
+const BookingDetails = React.lazy(() =>
+  import(/* webpackChunkName: "dashboards" */ './booking/details')
+);
+const Booking = React.lazy(() =>
+  import(/* webpackChunkName: "dashboards" */ './booking')
+);
 const Dashboards = React.lazy(() =>
   import(/* webpackChunkName: "dashboards" */ './dashboard')
 );
@@ -43,6 +51,15 @@ const App = ({ match }) => {
             <Route
               path={`${match.url}/location`}
               render={(props) => <Location {...props} />}
+            />
+            <Route
+              path={`${match.url}/booking`}
+              exact
+              render={(props) => <Booking {...props} />}
+            />
+            <Route
+              path={`${match.url}/booking/:id`}
+              render={(props) => <BookingDetails {...props} />}
             />
             <Route
               path={`${match.url}/logout`}

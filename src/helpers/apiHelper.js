@@ -16,7 +16,8 @@ const parseJson = async (response) => {
     const json = JSON.parse(text);
     return [response, json];
   } catch (err) {
-    throw new Error(`Did not receive JSON, instead received: ${text}`);
+    console.log(`Did not receive JSON, instead received: ${text}`);
+    return [response, {}];
   }
 };
 export const apiGetWithAuthToken = (url) => {

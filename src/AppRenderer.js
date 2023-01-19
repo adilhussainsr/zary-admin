@@ -1,18 +1,22 @@
 import React, { Suspense } from 'react';
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
+import { QueryClient, QueryClientProvider } from 'react-query';
 import { configureStore } from './redux/store';
 import reportWebVitals from './reportWebVitals';
 
+const queryClient = new QueryClient();
 const App = React.lazy(() => import(/* webpackChunkName: "App" */ './App'));
 
 const Main = () => {
   return (
-    <Provider store={configureStore()}>
-      <Suspense fallback={<div className="loading" />}>
-        <App />
-      </Suspense>
-    </Provider>
+    <QueryClientProvider client={queryClient}>
+      <Provider store={configureStore()}>
+        <Suspense fallback={<div className="loading" />}>
+          <App />
+        </Suspense>
+      </Provider>
+    </QueryClientProvider>
   );
 };
 

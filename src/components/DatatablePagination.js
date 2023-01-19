@@ -151,7 +151,7 @@ const DataTablePagination = ({
         </Pagination>
         {showPageSizeOptions && (
           <div className="float-right pt-2">
-            <span className="text-muted text-small mr-1">Items </span>
+            <span className="text-muted text-small mr-1">Rows </span>
             <UncontrolledDropdown className="d-inline-block">
               <DropdownToggle caret color="outline-primary" size="xs">
                 {pageSize}
