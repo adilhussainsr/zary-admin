@@ -9,7 +9,7 @@ import { Row, Button, Card, CardBody, CardTitle } from 'reactstrap';
 import { injectIntl } from 'react-intl';
 import { Colxx, Separator } from 'components/common/CustomBootstrap';
 import Breadcrumb from 'containers/navs/Breadcrumb';
-import { useQuery } from 'react-query';
+import { useMutation, useQuery } from 'react-query';
 import { GET_BOOKING, UPDATE_BOOKING_STATUS } from 'constants/apiRoutes';
 import { apiGetWithAuthToken, apiPutWithAuthToken } from 'helpers/apiHelper';
 import moment from 'moment';
@@ -31,15 +31,24 @@ const BookingDetails = ({ match, intl }) => {
     }
   );
 
-  const updateStatus = (status) => {
-    apiPutWithAuthToken(`${UPDATE_BOOKING_STATUS}/${match.params?.id}`, {
-      status,
-    }).then((resp) => {
+  const {
+    isLoading: isMutationLoading,
+    error: mutationError,
+    mutate,
+  } = useMutation((payload) => {
+    apiPutWithAuthToken(
+      `${UPDATE_BOOKING_STATUS}/${match.params?.id}`,
+      payload
+    ).then((resp) => {
       if (resp.statusCode === 200) {
         return refetch();
       }
       return console.error(resp);
     });
+  });
+
+  const updateStatus = (status) => {
+    mutate({ status });
   };
   console.log(match);
   const { messages } = intl;
@@ -61,7 +70,7 @@ const BookingDetails = ({ match, intl }) => {
         <Colxx xxs="12">
           <Card className="mb-4">
             <CardBody style={{ minHeight: 500 }}>
-              {isLoading || isRefetching ? (
+              {isLoading || isRefetching || isMutationLoading ? (
                 <div className="loading" />
               ) : (
                 <>
