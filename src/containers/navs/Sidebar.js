@@ -1,3 +1,4 @@
+/* eslint-disable react/destructuring-assignment */
 /* eslint-disable react/no-array-index-key */
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
@@ -115,7 +116,8 @@ class Sidebar extends Component {
   toggle = () => {
     const hasSubItems = this.getIsHasSubItem();
     // eslint-disable-next-line react/destructuring-assignment
-    this.props.changeSelectedMenuHasSubItems(hasSubItems);
+    if (this.props.selectedMenuHasSubItems !== hasSubItems)
+      this.props.changeSelectedMenuHasSubItems(hasSubItems);
     const { containerClassnames, menuClickCount } = this.props;
     const currentClasses = containerClassnames
       ? containerClassnames.split(' ').filter((x) => x !== '')
@@ -234,7 +236,8 @@ class Sidebar extends Component {
   setHasSubItemStatus = () => {
     const hasSubmenu = this.getIsHasSubItem();
     // eslint-disable-next-line react/destructuring-assignment
-    this.props.changeSelectedMenuHasSubItems(hasSubmenu);
+    if (this.props.selectedMenuHasSubItems !== hasSubmenu)
+      this.props.changeSelectedMenuHasSubItems(hasSubmenu);
     this.toggle();
   };
 
@@ -273,7 +276,8 @@ class Sidebar extends Component {
     const selectedParent = menuItem.id;
     const hasSubMenu = menuItem.subs && menuItem.subs.length > 0;
     // eslint-disable-next-line react/destructuring-assignment
-    this.props.changeSelectedMenuHasSubItems(hasSubMenu);
+    if (this.props.selectedMenuHasSubItems !== hasSubMenu)
+      this.props.changeSelectedMenuHasSubItems(hasSubMenu);
     if (!hasSubMenu) {
       this.setState(
         {

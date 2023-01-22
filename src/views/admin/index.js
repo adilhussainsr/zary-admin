@@ -10,6 +10,7 @@ import { connect, useDispatch } from 'react-redux';
 
 import AppLayout from 'layout/AppLayout';
 import { logoutUser } from 'redux/actions';
+import Force from './force';
 
 // import { ProtectedRoute, UserRole } from 'helpers/authHelper';
 const Location = React.lazy(() =>
@@ -56,6 +57,11 @@ const App = ({ match }) => {
               path={`${match.url}/booking`}
               exact
               render={(props) => <Booking {...props} />}
+            />
+            <Route
+              path={`${match.url}/force`}
+              exact
+              render={(props) => <Force {...props} />}
             />
             <Route
               path={`${match.url}/booking/:id`}

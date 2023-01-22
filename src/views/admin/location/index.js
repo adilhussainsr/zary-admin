@@ -171,12 +171,12 @@ const Location = ({
                     className="dropdown-toggle-split btn-lg"
                   />
                   <DropdownMenu right>
-                    <DropdownItem>
+                    {/* <DropdownItem>
                       <IntlMessages id="todo.action" />
                     </DropdownItem>
                     <DropdownItem>
                       <IntlMessages id="todo.another-action" />
-                    </DropdownItem>
+                    </DropdownItem> */}
                   </DropdownMenu>
                 </ButtonDropdown>
               </div>

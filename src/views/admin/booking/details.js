@@ -154,18 +154,20 @@ const BookingDetails = ({ match, intl }) => {
                       <Colxx>
                         <h4>ID Proof</h4>
                       </Colxx>
-                      <Colxx>
-                        <h4>
-                          {data.details?.idCardNumber}{' '}
-                          <a
-                            href={data.details?.idProof}
-                            target="_blank"
-                            rel="noreferrer"
-                          >
-                            <BsDownload className="ml-1" />
-                          </a>
-                        </h4>
-                      </Colxx>
+                      {data.details?.idProof && (
+                        <Colxx>
+                          <h4>
+                            {data.details?.idCardNumber}{' '}
+                            <a
+                              href={data.details?.idProof}
+                              target="_blank"
+                              rel="noreferrer"
+                            >
+                              <BsDownload className="ml-1" />
+                            </a>
+                          </h4>
+                        </Colxx>
+                      )}
                     </Row>
                     <Row className="mb-2">
                       <Colxx>

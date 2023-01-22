@@ -13,6 +13,11 @@ const getApiHeader = () => {
 const parseJson = async (response) => {
   const text = await response.text();
   try {
+    if (response.status === 401) {
+      localStorage.clear();
+      // eslint-disable-next-line no-restricted-globals
+      // location.href = '/';
+    }
     const json = JSON.parse(text);
     return [response, json];
   } catch (err) {

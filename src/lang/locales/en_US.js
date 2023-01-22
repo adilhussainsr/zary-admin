@@ -37,6 +37,8 @@ Table of Contents
 
 module.exports = {
   /* 01.General */
+  setting: 'Setting',
+  'force.firstHour': 'First hour charges',
   'general.copyright': 'Gogo React © 2018 All Rights Reserved.',
 
   'unauthorized.title': 'Unauthorized Access Attempt',
@@ -639,6 +641,7 @@ module.exports = {
   /* 07.20.Tables */
   'table.bootstrap-tables': 'Bootstrap Tables',
   'table.manage-booking': 'Manage Booking',
+  'table.manage-force': 'Force Management',
   'table.bootstrap-basic': 'Basic Table',
   'table.bootstrap-striped': 'Striped Rows',
   'table.bootstrap-bordered': 'Bordered Table',
