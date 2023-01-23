@@ -42,7 +42,7 @@ import { useQuery } from 'react-query';
 import Table from './Table';
 
 const defaultRequest = {
-  direction: 'ASC',
+  direction: 'DESC',
   sortBy: 'id',
 };
 
