@@ -2,21 +2,26 @@
 /* eslint-disable react/display-name */
 /* eslint-disable no-unused-vars */
 /* eslint-disable react/no-array-index-key */
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 
-import { Row, Button, Card, CardBody, CardTitle } from 'reactstrap';
+import { Row, Button, Card, CardBody, CardTitle, Input } from 'reactstrap';
 import { injectIntl } from 'react-intl';
 import { Colxx, Separator } from 'components/common/CustomBootstrap';
 import Breadcrumb from 'containers/navs/Breadcrumb';
 import { useMutation, useQuery } from 'react-query';
-import { GET_BOOKING, UPDATE_BOOKING_STATUS } from 'constants/apiRoutes';
+import {
+  CAPTURE_AMOUNT,
+  GET_BOOKING,
+  UPDATE_BOOKING_STATUS,
+} from 'constants/apiRoutes';
 import { apiGetWithAuthToken, apiPutWithAuthToken } from 'helpers/apiHelper';
 import moment from 'moment';
 import { BsArrowLeft, BsBack, BsDownload } from 'react-icons/bs';
 import StatusEnum from './StatusEnum';
 
 const BookingDetails = ({ match, intl }) => {
+  const [amount, setAmount] = useState({});
   const { isLoading, isRefetching, error, data, refetch } = useQuery(
     [GET_BOOKING, match.params?.id],
     () =>
@@ -28,8 +33,19 @@ const BookingDetails = ({ match, intl }) => {
       }),
     {
       enabled: !!match?.params?.id,
+      refetchInterval: false,
     }
   );
+
+  useEffect(() => {
+    if (data?.payments) {
+      const paymentAmount = {};
+      data.payments.forEach((payment) => {
+        paymentAmount[payment?.id] = payment?.amount;
+      });
+      setAmount(paymentAmount);
+    }
+  }, [data]);
 
   const {
     isLoading: isMutationLoading,
@@ -47,10 +63,34 @@ const BookingDetails = ({ match, intl }) => {
     });
   });
 
+  const {
+    isLoading: isCaptureLoading,
+    error: captureError,
+    mutate: mutateCapture,
+  } = useMutation({
+    mutationFn: ({ id, ...payload }) =>
+      apiPutWithAuthToken(`${CAPTURE_AMOUNT}${id}`, payload).then((resp) => {
+        if (resp.statusCode === 200 || resp.statusCode === 201) {
+          return refetch();
+        }
+        return console.error(resp);
+      }),
+  });
+
   const updateStatus = (status) => {
     mutate({ status });
   };
-  console.log(match);
+
+  const captureAmount = (paymentId) => {
+    if (amount[paymentId] && +amount[paymentId]) {
+      console.log(amount[paymentId]);
+      mutateCapture({
+        id: paymentId,
+        amount: +amount[paymentId],
+      });
+    }
+  };
+
   const { messages } = intl;
   return (
     <>
@@ -183,12 +223,42 @@ const BookingDetails = ({ match, intl }) => {
                           <Row key={payment.id} className="mb-2">
                             <Colxx>
                               <h4>Payment {i + 1}</h4>
+                              <h4 className="ml-4 my-1">Authorized Amount</h4>
+                              <h4 className="ml-4 my-1">Captured Amount</h4>
+                              <h4 className="ml-4">Status</h4>
                             </Colxx>
                             <Colxx>
                               <h4>{payment?.transactionId}</h4>
-                              <h4>{payment?.amount}</h4>
+                              <h4 className="my-1">${payment?.amount}</h4>
+                              <h4 className="my-1">
+                                ${payment?.capturedAmount}
+                              </h4>
                               <h4>{payment?.status}</h4>
                             </Colxx>
+                            {isCaptureLoading && <div className="loading" />}
+                            {payment?.status === 'authorized' &&
+                              !isCaptureLoading && (
+                                <Colxx>
+                                  <h4>Capture Amount</h4>
+                                  <Input
+                                    className="my-1"
+                                    type="number"
+                                    max={payment?.amount || 0}
+                                    value={amount[payment?.id] || 0}
+                                    onChange={(event) =>
+                                      setAmount((o) => ({
+                                        ...o,
+                                        [payment?.id]: +event.target.value,
+                                      }))
+                                    }
+                                  />
+                                  <Button
+                                    onClick={() => captureAmount(payment?.id)}
+                                  >
+                                    Capture
+                                  </Button>
+                                </Colxx>
+                              )}
                           </Row>
                         );
                       })}
