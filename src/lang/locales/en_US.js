@@ -37,7 +37,7 @@ Table of Contents
 
 module.exports = {
   /* 01.General */
-  setting: 'Setting',
+  setting: 'Settings',
   'force.firstHour': 'First hour charges',
   'general.copyright': 'Gogo React © 2018 All Rights Reserved.',
 
