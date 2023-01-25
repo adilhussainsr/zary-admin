@@ -187,3 +187,26 @@ export const getUserToken = () => {
   }
   return user?.token;
 };
+
+const statusColor = {
+  approved: 'green',
+  pending: '#c9c900',
+  success: 'green',
+  booked: 'green',
+  rejected: 'red',
+  ongoing: 'green',
+  completed: 'green',
+  failed: 'red',
+  cancelled: 'red',
+  refunded: 'red',
+  refund_requested: 'red',
+  authorized: 'green',
+};
+
+export const getStatusColor = (status) => {
+  console.log(status);
+  if (statusColor[status]) {
+    return statusColor[status];
+  }
+  return 'black';
+};

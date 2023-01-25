@@ -33,8 +33,8 @@ export const currentUser = getCurrentUser();
 export const adminRoot = '/admin';
 export const buyUrl = 'https://1.envato.market/k4z0';
 export const searchPath = `${adminRoot}/pages/miscellaneous/search`;
-export const servicePath = 'https://zary-backend-yo2kvwra2q-uc.a.run.app';
-// export const servicePath = 'http://localhost:8080';
+// export const servicePath = 'https://zary-backend-yo2kvwra2q-uc.a.run.app';
+export const servicePath = 'http://localhost:8080';
 export const apiPath = `${servicePath}/api/v1/`;
 
 export const themeColorStorageKey = '__theme_selected_color';

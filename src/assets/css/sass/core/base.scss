@@ -29,7 +29,7 @@ html {
 
 body {
   font-family: 'Nunito', sans-serif;
-  font-size: 0.8rem;
+  font-size: 1.2rem;
   font-weight: 400;
   color: $primary-color;
   background: $background-color;
@@ -62,29 +62,29 @@ body {
 }
 
 h1 {
-  font-size: 1.75rem;
+  font-size: 2rem;
   padding-bottom: 10px;
   display: inline-block;
 
   @include respond-below(sm) {
-    font-size: 1.3rem;
-    padding-top: 0.5rem;
+    font-size: 1.5rem;
+    padding-top: 0.7rem;
   }
 }
 
 h2 {
-  font-size: 1.4rem;
+  font-size: 1.7rem;
 
   @include respond-below(sm) {
-    font-size: 1.1rem;
+    font-size: 1.2rem;
   }
 }
 
 h3 {
-  font-size: 1.3rem;
+  font-size: 1.5rem;
 
   @include respond-below(sm) {
-    font-size: 1rem;
+    font-size: 1.2rem;
   }
 }
 
@@ -92,31 +92,31 @@ h3 {
   font-size: 1.2rem;
 
   @include respond-below(sm) {
-    font-size: 1rem;
+    font-size: 1.1rem;
   }
 }
 
 h4 {
-  font-size: 1.15rem;
+  font-size: 1.18rem;
 
   @include respond-below(sm) {
-    font-size: 0.9rem;
+    font-size: 1rem;
   }
 }
 
 h5 {
-  font-size: 1.1rem;
+  font-size: 1.15rem;
 
   @include respond-below(sm) {
-    font-size: 0.9rem;
+    font-size: 1rem;
   }
 }
 
 h6 {
-  font-size: 1rem;
+  font-size: 1.1rem;
 
   @include respond-below(sm) {
-    font-size: 0.85rem;
+    font-size: 1rem;
   }
 }
 

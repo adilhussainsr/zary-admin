@@ -1,39 +1,39 @@
-import { adminRoot, UserRole } from './defaultValues';
+import { adminRoot } from './defaultValues';
 
 const data = [
-  {
-    id: 'dashboards',
-    icon: 'iconsminds-shop-4',
-    label: 'menu.dashboards',
-    to: `${adminRoot}/dashboards`,
-    roles: [UserRole.Admin],
-    subs: [
-      {
-        icon: 'simple-icon-briefcase',
-        label: 'menu.default',
-        to: `${adminRoot}/dashboards/default`,
-        // roles: [UserRole.Admin],
-      },
-      // {
-      //   icon: 'simple-icon-pie-chart',
-      //   label: 'menu.analytics',
-      //   to: `${adminRoot}/dashboards/analytics`,
-      //   // roles: [UserRole.Admin],
-      // },
-      // {
-      //   icon: 'simple-icon-basket-loaded',
-      //   label: 'menu.ecommerce',
-      //   to: `${adminRoot}/dashboards/ecommerce`,
-      //   // roles: [UserRole.Editor],
-      // },
-      // {
-      //   icon: 'simple-icon-doc',
-      //   label: 'menu.content',
-      //   to: `${adminRoot}/dashboards/content`,
-      //   // roles: [UserRole.Editor],
-      // },
-    ],
-  },
+  // {
+  //   id: 'dashboards',
+  //   icon: 'iconsminds-shop-4',
+  //   label: 'menu.dashboards',
+  //   to: `${adminRoot}/dashboards`,
+  //   roles: [UserRole.Admin],
+  //   subs: [
+  //     {
+  //       icon: 'simple-icon-briefcase',
+  //       label: 'menu.default',
+  //       to: `${adminRoot}/dashboards/default`,
+  //       // roles: [UserRole.Admin],
+  //     },
+  // {
+  //   icon: 'simple-icon-pie-chart',
+  //   label: 'menu.analytics',
+  //   to: `${adminRoot}/dashboards/analytics`,
+  //   // roles: [UserRole.Admin],
+  // },
+  // {
+  //   icon: 'simple-icon-basket-loaded',
+  //   label: 'menu.ecommerce',
+  //   to: `${adminRoot}/dashboards/ecommerce`,
+  //   // roles: [UserRole.Editor],
+  // },
+  // {
+  //   icon: 'simple-icon-doc',
+  //   label: 'menu.content',
+  //   to: `${adminRoot}/dashboards/content`,
+  //   // roles: [UserRole.Editor],
+  // },
+  //   ],
+  // },
   {
     id: 'force',
     icon: 'iconsminds-digital-drawing',

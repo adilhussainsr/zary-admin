@@ -22,9 +22,9 @@ const BookingDetails = React.lazy(() =>
 const Booking = React.lazy(() =>
   import(/* webpackChunkName: "dashboards" */ './booking')
 );
-const Dashboards = React.lazy(() =>
-  import(/* webpackChunkName: "dashboards" */ './dashboard')
-);
+// const Dashboards = React.lazy(() =>
+//   import(/* webpackChunkName: "dashboards" */ './dashboard')
+// );
 const Logout = () => {
   const dispatch = useDispatch();
   const history = useHistory();
@@ -43,12 +43,12 @@ const App = ({ match }) => {
             <Redirect
               exact
               from={`${match.url}/`}
-              to={`${match.url}/dashboard`}
+              to={`${match.url}/booking`}
             />
-            <Route
+            {/* <Route
               path={`${match.url}/dashboard`}
               render={(props) => <Dashboards {...props} />}
-            />
+            /> */}
             <Route
               path={`${match.url}/location`}
               render={(props) => <Location {...props} />}

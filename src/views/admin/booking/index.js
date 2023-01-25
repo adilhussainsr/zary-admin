@@ -6,16 +6,12 @@ import React, { useState, useEffect, useCallback } from 'react';
 import {
   Row,
   Button,
-  UncontrolledDropdown,
-  DropdownToggle,
-  DropdownItem,
-  DropdownMenu,
-  Collapse,
-  ButtonDropdown,
-  CustomInput,
   Card,
   CardBody,
   CardTitle,
+  Input,
+  InputGroup,
+  InputGroupAddon,
 } from 'reactstrap';
 import { injectIntl } from 'react-intl';
 import { connect } from 'react-redux';
@@ -23,22 +19,13 @@ import { useHistory } from 'react-router-dom';
 import IntlMessages from 'helpers/IntlMessages';
 import { Colxx, Separator } from 'components/common/CustomBootstrap';
 import Breadcrumb from 'containers/navs/Breadcrumb';
-import products from 'data/products';
-
-import {
-  getCityList,
-  getCityListWithOrder,
-  getCityListSearch,
-  selectedCityItemsChange,
-} from 'redux/actions';
-import AddNewCityModal from 'containers/applications/AddNewCityModal';
-import CityListItem from 'components/applications/CityListItem';
-import ViewZipModal from 'containers/applications/ViewZipModal';
-import { ReactTableWithPaginationCard } from 'containers/ui/ReactTableCards';
 import { apiGetWithAuthToken } from 'helpers/apiHelper';
 import { GET_BOOKINGS } from 'constants/apiRoutes';
 import moment from 'moment';
 import { useQuery } from 'react-query';
+import { startCase } from 'lodash';
+import { getStatusColor } from 'helpers/Utils';
+import { BsSearch } from 'react-icons/bs';
 import Table from './Table';
 
 const defaultRequest = {
@@ -119,14 +106,26 @@ const Booking = ({ match, intl }) => {
         disableSortBy: true,
         cellClass: 'w-40',
         Cell: (props) => (
-          <>{props.value?.length ? props.value[0].status : '-'}</>
+          <span
+            style={{
+              color: getStatusColor(
+                props.value?.length ? props.value[0].status : ''
+              ),
+            }}
+          >
+            {startCase(props.value?.length ? props.value[0].status : '-')}
+          </span>
         ),
       },
       {
         Header: 'Booking Status',
         accessor: 'status',
         cellClass: 'w-40',
-        Cell: (props) => <>{props.value}</>,
+        Cell: (props) => (
+          <div style={{ color: getStatusColor(props.value) }}>
+            {startCase(props.value)}
+          </div>
+        ),
       },
       {
         Header: 'Action',
@@ -148,12 +147,9 @@ const Booking = ({ match, intl }) => {
     ],
     []
   );
-  const [modalOpen, setModalOpen] = useState(false);
-  const [dropdownSplitOpen, setDropdownSplitOpen] = useState(false);
-  const [displayOptionsIsOpen, setDisplayOptionsIsOpen] = useState(false);
   const [requestObj, setRequestObj] = useState(defaultRequest);
   const [queryParams, setQueryParams] = useState('');
-  const [selectedCity, setSelectedCity] = useState(null);
+  const [searchText, setSearchText] = useState('');
   const { isLoading, error, data } = useQuery([GET_BOOKINGS, queryParams], () =>
     apiGetWithAuthToken(`${GET_BOOKINGS}?${queryParams}`).then((resp) => {
       if (resp.statusCode === 200 && resp.data) {
@@ -194,7 +190,18 @@ const Booking = ({ match, intl }) => {
             <h1>
               <IntlMessages id="menu.booking" />
             </h1>
-
+            <InputGroup className="mb-3">
+              <Input
+                type="text"
+                value={searchText}
+                onChange={(e) => setSearchText(e.target.value)}
+              />
+              <InputGroupAddon addonType="append">
+                <Button outline color="secondary">
+                  <BsSearch />
+                </Button>
+              </InputGroupAddon>
+            </InputGroup>
             <Breadcrumb match={match} />
           </div>
           <Separator className="mb-5" />

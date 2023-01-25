@@ -251,7 +251,7 @@ select.form-control:not([size]):not([multiple]) {
   background-color: lighten($input-background, 5%);
   border-color: $separator-color;
   color: $primary-color;
-  font-size: 0.8rem;
+  font-size: 1.2rem;
   line-height: 1;
   padding: 0.5rem 0.75rem;
 }
@@ -264,7 +264,7 @@ select.form-control:not([size]):not([multiple]) {
   border-radius: $border-radius;
   outline: initial !important;
   box-shadow: initial !important;
-  font-size: 0.8rem;
+  font-size: 1.2rem;
   border: 1px solid $separator-color;
   background: $input-background;
   color: $primary-color;

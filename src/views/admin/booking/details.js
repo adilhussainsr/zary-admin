@@ -18,6 +18,8 @@ import {
 import { apiGetWithAuthToken, apiPutWithAuthToken } from 'helpers/apiHelper';
 import moment from 'moment';
 import { BsArrowLeft, BsBack, BsDownload } from 'react-icons/bs';
+import { startCase } from 'lodash';
+import { getStatusColor } from 'helpers/Utils';
 import StatusEnum from './StatusEnum';
 
 const BookingDetails = ({ match, intl }) => {
@@ -123,7 +125,11 @@ const BookingDetails = ({ match, intl }) => {
                     </CardTitle>
                   </Row>
                   <Row>
-                    <CardTitle>Booking Status: {data.status}</CardTitle>
+                    <CardTitle
+                      style={{ color: getStatusColor(data.status || '') }}
+                    >
+                      Booking Status: {startCase(data.status || '')}
+                    </CardTitle>
                   </Row>
                   <div className="mx-2 w-80">
                     <Row className="mb-2">
@@ -144,7 +150,7 @@ const BookingDetails = ({ match, intl }) => {
                     </Row>
                     <Row className="mb-2">
                       <Colxx>
-                        <h4>phone</h4>
+                        <h4>Phone</h4>
                       </Colxx>
                       <Colxx>
                         <h4>{data.details?.mobileNumber}</h4>
@@ -152,7 +158,7 @@ const BookingDetails = ({ match, intl }) => {
                     </Row>
                     <Row className="mb-2">
                       <Colxx>
-                        <h4>address</h4>
+                        <h4>Address</h4>
                       </Colxx>
                       <Colxx>
                         <h4>{data.details?.adddress}</h4>
